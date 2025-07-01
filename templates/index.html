@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>HomeMade Pickles & Snacks</h1>
+            <h2>Taste the Best</h2>
+            <p>Authentic homemade pickles and traditional snacks crafted with love and preserved with care. Experience the rich flavors of heritage recipes delivered fresh to your doorstep.</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('products') }}" class="btn btn-primary btn-large">Shop Now</a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline btn-large">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://i.pinimg.com/736x/4c/6c/ba/4c6cbae47f19fb1a628624afc83d4406.jpg" alt="Traditional Pickles">
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2>Why Choose Our Products?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>100% Natural</h3>
+                <p>Made with fresh, organic ingredients without any artificial preservatives or chemicals.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Traditional Recipes</h3>
+                <p>Authentic family recipes passed down through generations, preserving the original taste.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Fresh Delivery</h3>
+                <p>Quick and secure delivery ensuring products reach you fresh and in perfect condition.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>Quality Assured</h3>
+                <p>Every product is carefully crafted and quality-tested to meet our high standards.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-products">
+    <div class="container">
+        <h2>Featured Products</h2>
+        <div class="products-grid">
+            {% for product in featured_products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://i.pinimg.com/736x/ac/ab/c7/acabc7eb0406d84ffecebffd322ac6f9.jpg" alt="{{ product.name }}">
+                    <div class="product-overlay">
+                        <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ product.id }}">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description }}</p>
+                    <div class="product-rating">
+                        {% for i in range(5) %}
+                            {% if i < product.rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span>({{ product.rating }})</span>
+                    </div>
+                    <div class="product-price">₹{{ product.price }}</div>
+                    <div class="product-stock">{{ product.stock }} in stock</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center">
+            <a href="{{ url_for('products') }}" class="btn btn-outline btn-large">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories">
+    <div class="container">
+        <h2>Our Categories</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://i.pinimg.com/736x/59/86/c3/5986c39e2a33b4c18549a51e8820fdae.jpg" alt="Vegetarian Pickles">
+                </div>
+                <div class="category-content">
+                    <h3>Vegetarian Pickles</h3>
+                    <p>Fresh vegetables transformed into tangy, spicy delights</p>
+                    <a href="{{ url_for('veg_pickles') }}" class="btn btn-primary">Explore</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://i.pinimg.com/736x/8b/5b/6d/8b5b6d3487a9d22e404560ec9dfbd207.jpg" alt="Non-Veg Pickles">
+                </div>
+                <div class="category-content">
+                    <h3>Non-Veg Pickles</h3>
+                    <p>Tender meat and seafood pickles with aromatic spices</p>
+                    <a href="{{ url_for('non_veg_pickles') }}" class="btn btn-primary">Explore</a>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="https://i.pinimg.com/736x/54/1d/ca/541dcaf8558d4d175c34d220ab7bc7be.jpg" alt="Traditional Snacks">
+                </div>
+                <div class="category-content">
+                    <h3>Traditional Snacks</h3>
+                    <p>Crispy, crunchy snacks made with traditional methods</p>
+                    <a href="{{ url_for('snacks') }}" class="btn btn-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+    <div class="container">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"The mango pickle tastes exactly like my grandmother's recipe. Absolutely authentic and delicious!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Customer">
+                    <div>
+                        <h4>Priya Sharma</h4>
+                        <span>Mumbai</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Fast delivery and excellent packaging. The pickles arrived fresh and the taste is outstanding!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Customer">
+                    <div>
+                        <h4>Rajesh Kumar</h4>
+                        <span>Delhi</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Love the variety of snacks! The murukku is perfectly crispy and brings back childhood memories."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Customer">
+                    <div>
+                        <h4>Lakshmi Nair</h4>
+                        <span>Bangalore</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+    
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            addToCart(productId, 1);
+        });
+    });
+});
+
+function addToCart(productId, quantity) {
+    fetch('/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Product added to cart!', 'success');
+            updateCartCount();
+        } else {
+            showNotification(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error adding product to cart', 'error');
+    });
+}
+
+function updateCartCount() {
+    fetch('/api/cart-count')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('cart-count').textContent = data.count;
+    })
+    .catch(error => console.error('Error updating cart count:', error));
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+</script>
+{% endblock %}
