@@ -1,0 +1,328 @@
+
+
+{% extends "base.html" %}
+
+{% block title %}Sign Up - PickleMart{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg border-0" style="border-radius: 20px;">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="signup-icon mb-3">
+                                <i class="fas fa-user-plus" style="font-size: 4rem; color: var(--primary-color);"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2">Join PickleMart!</h2>
+                            <p class="text-muted">Create your account and start shopping authentic pickles</p>
+                        </div>
+
+                        <form method="POST" id="signupForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label for="name" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-2"></i>Full Name
+                                    </label>
+                                    <input type="text" class="form-control form-control-lg" id="name" name="name" 
+                                           placeholder="Enter your full name" required 
+                                           style="border-radius: 15px; border: 2px solid #e9ecef;">
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="email" class="form-label fw-semibold">
+                                        <i class="fas fa-envelope me-2"></i>Email Address
+                                    </label>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email" 
+                                           placeholder="Enter your email" required 
+                                           style="border-radius: 15px; border: 2px solid #e9ecef;">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-semibold">
+                                    <i class="fas fa-lock me-2"></i>Password
+                                </label>
+                                <div class="position-relative">
+                                    <input type="password" class="form-control form-control-lg" id="password" name="password" 
+                                           placeholder="Create a strong password" required minlength="6"
+                                           style="border-radius: 15px; border: 2px solid #e9ecef;">
+                                    <button type="button" class="btn position-absolute end-0 top-50 translate-middle-y me-3" 
+                                            style="border: none; background: none;" onclick="togglePassword('password')">
+                                        <i class="fas fa-eye" id="toggleIcon1"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength mt-2">
+                                    <div class="progress" style="height: 6px; border-radius: 3px;">
+                                        <div class="progress-bar" id="strengthBar" role="progressbar" style="width: 0%; border-radius: 3px;"></div>
+                                    </div>
+                                    <small class="text-muted" id="strengthText">Password strength: </small>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label fw-semibold">
+                                    <i class="fas fa-check-circle me-2"></i>Confirm Password
+                                </label>
+                                <div class="position-relative">
+                                    <input type="password" class="form-control form-control-lg" id="confirmPassword" 
+                                           placeholder="Confirm your password" required 
+                                           style="border-radius: 15px; border: 2px solid #e9ecef;">
+                                    <button type="button" class="btn position-absolute end-0 top-50 translate-middle-y me-3" 
+                                            style="border: none; background: none;" onclick="togglePassword('confirmPassword')">
+                                        <i class="fas fa-eye" id="toggleIcon2"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback" id="passwordMatch"></div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        I agree to the <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a> 
+                                        and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        <i class="fas fa-bell me-1"></i>
+                                        Subscribe to our newsletter for updates and special offers
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="signupBtn">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </form>
+
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account? 
+                                <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold" style="color: var(--primary-color);">
+                                    Sign in here
+                                </a>
+                            </p>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <div class="row g-3">
+                                <div class="col-4">
+                                    <div class="p-3 rounded" style="background: rgba(44, 85, 48, 0.1);">
+                                        <i class="fas fa-shield-alt text-success mb-2" style="font-size: 1.5rem;"></i>
+                                        <small class="d-block text-muted">Secure</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3 rounded" style="background: rgba(255, 107, 53, 0.1);">
+                                        <i class="fas fa-shipping-fast text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                        <small class="d-block text-muted">Fast Delivery</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3 rounded" style="background: rgba(248, 213, 104, 0.3);">
+                                        <i class="fas fa-star text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                        <small class="d-block text-muted">Quality</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius: 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-file-contract me-2"></i>Terms & Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Welcome to PickleMart</h6>
+                <p>By creating an account, you agree to our terms:</p>
+                <ul>
+                    <li>You must be 18+ years old to create an account</li>
+                    <li>Provide accurate and complete information</li>
+                    <li>Keep your account credentials secure</li>
+                    <li>Use our services responsibly</li>
+                    <li>Respect our quality guarantee policies</li>
+                </ul>
+                <h6>Privacy & Data</h6>
+                <p>We protect your personal information and use it only for order processing and service improvement.</p>
+                <h6>Orders & Payments</h6>
+                <p>All orders are subject to availability. We accept secure payment methods and provide order tracking.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="acceptTerms()">Accept Terms</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(44, 85, 48, 0.25);
+}
+
+.signup-icon {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.card {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.password-strength .progress-bar.weak {
+    background-color: #dc3545;
+}
+
+.password-strength .progress-bar.medium {
+    background-color: #ffc107;
+}
+
+.password-strength .progress-bar.strong {
+    background-color: #28a745;
+}
+</style>
+
+<script>
+function togglePassword(fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    const toggleIcon = document.getElementById(fieldId === 'password' ? 'toggleIcon1' : 'toggleIcon2');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+
+function acceptTerms() {
+    document.getElementById('agreeTerms').checked = true;
+}
+
+// Password strength checker
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
+    
+    let strength = 0;
+    let text = 'Very Weak';
+    
+    if (password.length >= 6) strength += 25;
+    if (password.match(/[a-z]/)) strength += 25;
+    if (password.match(/[A-Z]/)) strength += 25;
+    if (password.match(/[0-9]/)) strength += 25;
+    
+    strengthBar.style.width = strength + '%';
+    
+    if (strength < 50) {
+        text = 'Weak';
+        strengthBar.className = 'progress-bar weak';
+    } else if (strength < 75) {
+        text = 'Medium';
+        strengthBar.className = 'progress-bar medium';
+    } else {
+        text = 'Strong';
+        strengthBar.className = 'progress-bar strong';
+    }
+    
+    strengthText.textContent = 'Password strength: ' + text;
+});
+
+// Password confirmation checker
+document.getElementById('confirmPassword').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    const feedback = document.getElementById('passwordMatch');
+    
+    if (confirmPassword && password !== confirmPassword) {
+        this.classList.add('is-invalid');
+        feedback.textContent = 'Passwords do not match';
+    } else {
+        this.classList.remove('is-invalid');
+        feedback.textContent = '';
+    }
+});
+
+// Form submission with loading state
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return;
+    }
+    
+    const submitBtn = document.getElementById('signupBtn');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<span class="loading"></span> Creating Account...';
+    submitBtn.disabled = true;
+    
+    // Re-enable button after 5 seconds in case of slow response
+    setTimeout(() => {
+        if (submitBtn.disabled) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    }, 5000);
+});
+
+// Add focus effects
+document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.style.transform = 'scale(1.02)';
+        this.style.transition = 'transform 0.2s ease';
+    });
+    
+    input.addEventListener('blur', function() {
+        this.style.transform = 'scale(1)';
+    });
+});
+</script>
+{% endblock %}

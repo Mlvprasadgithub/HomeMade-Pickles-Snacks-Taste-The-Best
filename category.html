@@ -1,0 +1,216 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - PickleMart{% endblock %}
+
+{% block content %}
+<!-- Category Hero Section -->
+<section class="hero" style="padding: 2rem 0;">
+    <div class="container text-center">
+        <h1>{{ title }}</h1>
+        <p class="lead">Discover our authentic collection of {{ title.lower() }}</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <!-- Category Stats -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3>{{ title }} <span class="badge bg-primary">{{ products|length }} items</span></h3>
+                <div class="d-flex gap-2">
+                    <select class="form-select" id="sortSelect" onchange="sortProducts()">
+                        <option value="name">Sort by Name</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if products %}
+    <div class="row" id="productGrid">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 mb-4 product-card" 
+             data-name="{{ product.name|lower }}" 
+             data-price="{{ product.price }}">
+            <div class="card h-100">
+                <div class="position-relative">
+                    <img src="{{ product.image_url or '/static/images/placeholder.jpg' }}" 
+                         class="card-img-top" 
+                         alt="{{ product.name }}"
+                         style="height: 250px; object-fit: cover;">
+                    
+                    <!-- Discount Badge -->
+                    {% if product.discount %}
+                    <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                        {{ product.discount }}% OFF
+                    </span>
+                    {% endif %}
+                    
+                    <!-- Category Badge -->
+                    <span class="badge position-absolute top-0 start-0 m-2" 
+                          style="background: var(--primary-color);">
+                        {{ product.category|title }}
+                    </span>
+                </div>
+                
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted flex-grow-1">
+                        {{ product.description[:100] }}{% if product.description|length > 100 %}...{% endif %}
+                    </p>
+                    
+                    <!-- Rating -->
+                    <div class="mb-2">
+                        {% set rating = product.rating or 4.5 %}
+                        {% for i in range(5) %}
+                            {% if i < rating %}
+                                <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                                <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <small class="text-muted ms-1">({{ product.reviews or 0 }} reviews)</small>
+                    </div>
+                    
+                    <!-- Price -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            {% if product.original_price and product.original_price > product.price %}
+                                <span class="text-muted text-decoration-line-through me-2">
+                                    ₹{{ "%.2f"|format(product.original_price) }}
+                                </span>
+                            {% endif %}
+                            <span class="h5 text-success mb-0">₹{{ "%.2f"|format(product.price) }}</span>
+                        </div>
+                        
+                        {% if product.stock %}
+                            {% if product.stock > 10 %}
+                                <span class="badge bg-success">In Stock</span>
+                            {% elif product.stock > 0 %}
+                                <span class="badge bg-warning">{{ product.stock }} left</span>
+                            {% else %}
+                                <span class="badge bg-danger">Out of Stock</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Add to Cart Button -->
+                    {% if session.email %}
+                        {% if not product.stock or product.stock > 0 %}
+                            <button class="btn btn-primary w-100" 
+                                    onclick="addToCart('{{ product.id }}')">
+                                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                            </button>
+                        {% else %}
+                            <button class="btn btn-secondary w-100" disabled>
+                                <i class="fas fa-times me-2"></i>Out of Stock
+                            </button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login to Buy
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-5">
+        <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">No products found in this category</h4>
+        <p class="text-muted">Check back later for new arrivals!</p>
+        <a href="{{ url_for('products') }}" class="btn btn-primary">
+            <i class="fas fa-shopping-bag me-2"></i>Browse All Products
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Quick Links Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                        <h5>Fast Delivery</h5>
+                        <p class="text-muted">Get your favorite pickles delivered within 3-5 days</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body text-center">
+                        <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+                        <h5>100% Authentic</h5>
+                        <p class="text-muted">Traditional recipes with authentic flavors</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body text-center">
+                        <i class="fas fa-award fa-3x text-warning mb-3"></i>
+                        <h5>Quality Guaranteed</h5>
+                        <p class="text-muted">Premium quality products with satisfaction guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function sortProducts() {
+    const sortBy = document.getElementById('sortSelect').value;
+    const productGrid = document.getElementById('productGrid');
+    const products = Array.from(productGrid.children);
+    
+    products.sort((a, b) => {
+        switch(sortBy) {
+            case 'name':
+                return a.dataset.name.localeCompare(b.dataset.name);
+            case 'price-low':
+                return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+            case 'price-high':
+                return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+            default:
+                return 0;
+        }
+    });
+    
+    // Clear and re-append sorted products
+    productGrid.innerHTML = '';
+    products.forEach(product => productGrid.appendChild(product));
+}
+
+// Add scroll animation
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.product-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    });
+    
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}
