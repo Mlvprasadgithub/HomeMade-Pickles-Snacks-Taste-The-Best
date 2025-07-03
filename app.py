@@ -30,11 +30,11 @@ SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN')
 ENABLE_SNS = os.environ.get('ENABLE_SNS', 'False').lower() == 'true'
 
 # Email Configuration
-SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
-SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD')
-SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
-SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))
-ENABLE_EMAIL = os.environ.get('ENABLE_EMAIL', 'False').lower() == 'true'
+SENDER_EMAIL = mandalalakshmivaraprasad@gmail.com
+SENDER_PASSWORD = hzwwppbkljjwdazd
+SMTP_SERVER = smtp.gmail.com
+SMTP_PORT = 587
+ENABLE_EMAIL = True
 
 # ---------------------------------------
 # AWS Resources
