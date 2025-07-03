@@ -29,12 +29,17 @@ ORDERS_TABLE = os.environ.get('ORDERS_TABLE_NAME', 'EcomOrders')
 SNS_TOPIC_ARN = os.environ.get('SNS_TOPIC_ARN')
 ENABLE_SNS = os.environ.get('ENABLE_SNS', 'False').lower() == 'true'
 
-# Email Configuration
-SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
-SENDER_PASSWORD = os.environ.get('SENDER_PASSWORD')
-SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
-SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))
-ENABLE_EMAIL = os.environ.get('ENABLE_EMAIL', 'False').lower() == 'true'  
+
+
+from dotenv import load_dotenv
+load_dotenv()
+
+SENDER_EMAIL = os.getenv('SENDER_EMAIL')
+SENDER_PASSWORD = os.getenv('SENDER_PASSWORD')
+SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
+SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
+ENABLE_EMAIL = os.getenv('ENABLE_EMAIL', 'False').lower() == 'true'
+
 
 # ---------------------------------------
 # AWS Resources
